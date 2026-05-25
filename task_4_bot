@@ -1,13 +1,43 @@
+# Colors
+RED = "\033[91m"
+GREEN = "\033[92m"
+GRAY = "\033[90m"
+BLUE = "\033[94m"
+RESET = "\033[0m"
+
+
 def parse_input(user_input):
-    cmd, *args = user_input.split()
-    cmd = cmd.lower().strip()
+    parts = user_input.strip().split()
+
+    if not parts:
+        return "", []
+
+    cmd = parts[0].lower()
+    args = parts[1:]
+
     return cmd, args
+
+
+def show_help():
+    return f"""
+{GRAY}
+----------
+Available commands:
+
+hello                         - greeting
+add [name] [phone]            - add new contact
+change [name] [phone]         - change contact phone
+phone [name]                  - show phone number
+all                           - show all contacts
+close or exit                 - exit the program
+----------{RESET}
+"""
 
 
 def add_contact(args, contacts):
     name, phone = args
     contacts[name] = phone
-    return "Contact added."
+    return f"\n{GREEN}Contact added.{RESET}"
 
 
 def change_contact(args, contacts):
@@ -15,76 +45,80 @@ def change_contact(args, contacts):
 
     if name in contacts:
         contacts[name] = phone
-        return "Contact updated."
-    else:
-        return "Contact not found."
+        return f"\n{GREEN}Contact updated.{RESET}"
+
+    return f"\n{RED}Contact not found.{RESET}"
 
 
 def show_phone(args, contacts):
     name = args[0]
 
     if name in contacts:
-        return contacts[name]
-    else:
-        return "Contact not found."
+        return f"\n{GREEN}{contacts[name]}{RESET}"
+
+    return f"\n{RED}Contact not found.{RESET}"
 
 
 def show_all(contacts):
     if not contacts:
-        return "No contacts saved."
+        return f"\n{RED}No contacts saved.{RESET}"
 
     result = ""
 
     for name, phone in contacts.items():
         result += f"{name}: {phone}\n"
 
-    return result.strip()
+    return "\n" + result.strip()
 
 
 def main():
     contacts = {}
 
-    print("Welcome to the assistant bot!")
+    print(f"\n{BLUE}Welcome to the assistant bot!{RESET}")
+    print(show_help())
 
     while True:
-        user_input = input("Enter a command: ")
+        user_input = input("\nEnter a command: ")
 
         if not user_input:
-            print("Invalid command.")
+            print(f"\n{RED}Invalid command.{RESET}")
+            print(show_help())
             continue
 
         command, args = parse_input(user_input)
 
         if command in ["close", "exit"]:
-            print("Good bye!")
+            print(f"\n{BLUE}Good bye!{RESET}")
             break
 
         elif command == "hello":
-            print("How can I help you?")
+            print(f"\n{GREEN}How can I help you?{RESET}")
 
         elif command == "add":
             try:
                 print(add_contact(args, contacts))
             except ValueError:
-                print("Invalid command.")
+                print(f"\n{RED}Invalid command.{RESET}")
 
         elif command == "change":
             try:
                 print(change_contact(args, contacts))
             except ValueError:
-                print("Invalid command.")
+                print(f"\n{RED}Invalid command.{RESET}")
 
         elif command == "phone":
             try:
                 print(show_phone(args, contacts))
             except IndexError:
-                print("Invalid command.")
+                print(f"\n{RED}Invalid command.{RESET}")
 
         elif command == "all":
             print(show_all(contacts))
 
         else:
-            print("Invalid command.")
+            print(f"\n{RED}Invalid command.{RESET}")
+
+        print(show_help())
 
 
 if __name__ == "__main__":
