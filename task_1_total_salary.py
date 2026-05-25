@@ -9,8 +9,7 @@ def total_salary(path):
                 total += int(salary)
                 count += 1
 
-        average = total / count if count > 0 else 0
-        average = int(average)
+        average = round(total / count) if count > 0 else 0
 
         return total, average
 
