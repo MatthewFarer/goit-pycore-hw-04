@@ -35,28 +35,40 @@ close or exit                 - exit the program
 
 
 def add_contact(args, contacts):
-    name, phone = args
-    contacts[name] = phone
-    return f"\n{GREEN}Contact added.{RESET}"
+    try:
+        name, phone = args
+        contacts[name] = phone
+        return f"\n{GREEN}Contact added.{RESET}"
+
+    except ValueError:
+        return f"\n{RED}Invalid command.{RESET}"
 
 
 def change_contact(args, contacts):
-    name, phone = args
+    try:
+        name, phone = args
 
-    if name in contacts:
-        contacts[name] = phone
-        return f"\n{GREEN}Contact updated.{RESET}"
+        if name in contacts:
+            contacts[name] = phone
+            return f"\n{GREEN}Contact updated.{RESET}"
 
-    return f"\n{RED}Contact not found.{RESET}"
+        return f"\n{RED}Contact not found.{RESET}"
+
+    except ValueError:
+        return f"\n{RED}Invalid command.{RESET}"
 
 
 def show_phone(args, contacts):
-    name = args[0]
+    try:
+        name = args[0]
 
-    if name in contacts:
-        return f"\n{GREEN}{contacts[name]}{RESET}"
+        if name in contacts:
+            return f"\n{GREEN}{contacts[name]}{RESET}"
 
-    return f"\n{RED}Contact not found.{RESET}"
+        return f"\n{RED}Contact not found.{RESET}"
+
+    except IndexError:
+        return f"\n{RED}Invalid command.{RESET}"
 
 
 def show_all(contacts):
@@ -95,22 +107,13 @@ def main():
             print(f"\n{GREEN}How can I help you?{RESET}")
 
         elif command == "add":
-            try:
-                print(add_contact(args, contacts))
-            except ValueError:
-                print(f"\n{RED}Invalid command.{RESET}")
+            print(add_contact(args, contacts))
 
         elif command == "change":
-            try:
-                print(change_contact(args, contacts))
-            except ValueError:
-                print(f"\n{RED}Invalid command.{RESET}")
+            print(change_contact(args, contacts))
 
         elif command == "phone":
-            try:
-                print(show_phone(args, contacts))
-            except IndexError:
-                print(f"\n{RED}Invalid command.{RESET}")
+            print(show_phone(args, contacts))
 
         elif command == "all":
             print(show_all(contacts))
