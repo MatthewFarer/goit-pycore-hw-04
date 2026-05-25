@@ -25,7 +25,7 @@ def get_cats_info(path):
         return []
 
 
-# Приклад використання
 cats_info = get_cats_info("cats_file.txt")
 
-print(cats_info)
+for cat in cats_info:
+    print(f"ID: {cat['id']}, Name: {cat['name']}, Age: {cat['age']}")
