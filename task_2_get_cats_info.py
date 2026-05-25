@@ -28,4 +28,7 @@ def get_cats_info(path):
 cats_info = get_cats_info("cats_file.txt")
 
 for cat in cats_info:
-    print(f"ID: {cat['id']}, Name: {cat['name']}, Age: {cat['age']}")
+    print(f"ID: {cat['id']}")
+    print(f"Name: {cat['name']}")
+    print(f"Age: {cat['age']}")
+    print()
